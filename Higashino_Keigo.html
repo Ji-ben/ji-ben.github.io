@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>东野圭吾作品集</title>
+    <script src="assets/HigashinoClass.js"></script>
+    <style>
+        .divCommon {
+            margin: 1em;
+        }
+
+        .divTable {
+            display: flex;
+            justify-content: center;
+        }
+
+        table {
+            font-size: 0.9em;
+            border-collapse: collapse;
+            border-spacing: 0;
+            empty-cells: show;
+            border: 1px solid #cbcbcb;
+        }
+
+        thead {
+            background-color: #e0e0e0;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid #cbcbcb;
+            border-width: 0 0 1 0px;
+            font-size: inherit;
+            margin: 0;
+            overflow: visible;
+            padding: 0.5em 1em;
+        }
+
+        th {
+            cursor: pointer;
+        }
+
+        td {
+            color: #777777;
+        }
+
+        .tdAlignCenter {
+            text-align: center;
+        }
+
+        #goToTop {
+            display: none;
+            position: fixed;
+            bottom: 1.2em;
+            right: 1.5em;
+            font-size: 2em;
+            color: #cbcbcb;
+            transform: scale(1.5, 1);
+            border: none;
+            border-radius: 0;
+            outline: none;
+            padding: 0px 10px 5px 10px;
+            z-index: 99;
+        }
+
+        #goToTop:hover {
+            color: #777777;
+        }
+
+        #goToTop:active {
+            color: #cbcbcb;
+            background-color: #777777;
+        }
+
+        p,
+        li {
+            color: #777777;
+            font-size: 0.9em;
+        }
+
+        .titleBold {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .txtAlignRight {
+            text-align: right;
+        }
+
+        a:link,
+        a:visited {
+            color: #777777;
+            text-decoration: unset;
+        }
+
+        hr {
+            display: block;
+            margin: 2em auto;
+            border: none;
+            height: 1px;
+            background-color: #cbcbcb;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="divCommon">
+        <label for="readCheck">标记:</label>
+        <input type="checkbox" id="readCheck" onclick="CheckToHide(this)" checked>
+        <label for="yearCheck"> | 年份:</label>
+        <input type="checkbox" id="yearCheck" onclick="CheckToHide(this)" checked>
+        <label for="niHongGoCheck"> | 日语原版:</label>
+        <input type="checkbox" id="niHongGoCheck" onclick="CheckToHide(this)" checked>
+        <label for="catalogCheck"> | 分类:</label>
+        <input type="checkbox" id="catalogCheck" onclick="CheckToHide(this)" checked>
+        <label for="transCheck"> | 中文版:</label>
+        <input type="checkbox" id="transCheck" onclick="CheckToHide(this)" checked>
+        <label for="doubanCheck"> | 豆瓣评分:</label>
+        <input type="checkbox" id="doubanCheck" onclick="CheckToHide(this)" checked>
+    </div>
+
+    <div class="divTable">
+        <table id="worksTable">
+            <!-- <caption>作品列表</caption> -->
+            <thead>
+                <tr id="tableHead">
+                    <th class="read" onclick="sortTable(0,'string')">标记</th>
+                    <th onclick="sortTable(1,'number')">初版次序</th>
+                    <th class="year" onclick="sortTable(2,'number')">初版年份</th>
+                    <th class="niHongGo">原作书名</th>
+                    <th class="niHongGo" onclick="sortTable(4,'string')">出版社</th>
+                    <th class="catalog" onclick="sortTable(5,'string')">系列分类</th>
+                    <th>译本书名</th>
+                    <th class="trans" onclick="sortTable(7,'string')">出版社</th>
+                    <th class="trans" onclick="sortTable(8,'string')">译者</th>
+                    <th class="douban" onclick="sortTable(9,'number')">豆瓣评分</th>
+                    <th class="douban" onclick="sortTable(10,'number')">评分人数</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <button id="goToTop" onclick="goTopFunction()">∧</button>
+
+    <div class="divCommon">
+        <p class="txtAlignRight">※ 以上列表内容更新时间：2020/11/15 11:31:21</p>
+        <hr>
+
+        <p class="titleBold">获奖履历</p>
+        <ul id="ulAwardList"></ul>
+        <p class="titleBold">推理排名<span style="font-weight: normal; font-size: 0.9rem;">（只列举排名第1位的作品）</span></p>
+        <p style="font-weight: bold;">周刊文春推理小说Best10</p>
+        <ul id="ulBunShunList"></ul>
+        <p style="font-weight: bold;">这本推理小说真厉害！</p>
+        <ul>
+            <li>2006年《嫌疑人X的献身》</li>
+            <li>2010年《新参者》</li>
+        </ul>
+        <p style="font-weight: bold;">本格推理小说Best10</p>
+        <ul>
+            <li>2006年《嫌疑人X的献身》</li>
+        </ul>
+        <p class="titleBold">其它链接</p>
+        <a href="https://m.douban.com/subject_collection/7681" target="_blank">■ 东野圭吾代表作(豆瓣推荐)</a>
+        <br>
+        <a href="https://m.douban.com/subject_collection/5210" target="_blank">■ 豆瓣热门推理图书TOP10</a>
+    </div>
+</body>
+
+<script>
+    // 表格表头生成
+    // for (let i = 0; i < thName.length; i++) {
+    //     let thData = document.createElement("th");
+    //     thData.innerText = thName[i];
+    //     document.getElementById("tableHead").appendChild(thData);
+    // }
+
+    // 表格表体生成,循环i为行生成，循环j为行内容填充
+    for (let i = 0; i < books.length; i++) {
+        let trData = document.createElement("tr");
+        trData.id = "tr" + i;
+        document.getElementById("tableBody").appendChild(trData);
+
+        for (let j = 0; j < thName.length - 1; j++) {
+            tdData = document.createElement("td");
+            switch (j) {
+                case 0:
+                    tdData.className = "tdAlignCenter read";
+                    // tdData.innerText = "已读";
+                    break;
+                case 1:
+                    tdData.className = "tdAlignCenter";
+                    tdData.innerText = books[i].id;
+                    break;
+                case 2:
+                    tdData.className = "tdAlignCenter year";
+                    tdData.innerText = books[i].year;
+                    break;
+                case 3:
+                    tdData.className = "niHongGo";
+                    tdData.innerText = books[i].name;
+                    break;
+                case 4:
+                    tdData.className = "niHongGo";
+                    tdData.innerText = books[i].press;
+                    break;
+                case 5:
+                    tdData.className = "catalog";
+                    tdData.innerText = books[i].series;
+                    break;
+                case 6:
+                    tdData.innerText = books[i].nameCN;
+                    break;
+                case 7:
+                    tdData.className = "trans";
+                    tdData.innerText = books[i].pressCN;
+                    break;
+                case 8:
+                    tdData.className = "trans";
+                    tdData.innerText = books[i].transBy;
+                    break;
+                case 9:
+                    tdData.className = "tdAlignCenter douban";
+                    if (books[i].rating == 0) tdData.innerText = "";
+                    else tdData.innerText = books[i].rating;
+                    break;
+                case 10:
+                    tdData.className = "tdAlignCenter douban";
+                    if (books[i].votes == 0) tdData.innerText = "";
+                    else tdData.innerText = books[i].votes;
+                    break;
+                default:
+                    break;
+            }
+            document.getElementById("tr" + i).appendChild(tdData);
+        }
+    }
+
+    // 表格排序
+    function sortTable(n, sortType) {
+        let table = document.getElementById("worksTable");
+        let rows = table.rows;
+        let switching = shouldSwitch = ascendTr = true;
+        let compareA = compareB = undefined;
+        let switchcount = 0;
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            let i = 0;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                compareA = rows[i].getElementsByTagName("TD")[n];
+                compareB = rows[i + 1].getElementsByTagName("TD")[n];
+                if (ascendTr && sortType == "string") {
+                    if (compareA.innerHTML.toLowerCase() > compareB.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (!ascendTr && sortType == "string") {
+                    if (compareA.innerHTML.toLowerCase() < compareB.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (ascendTr && sortType == "number") {
+                    if (Number(compareA.innerHTML) > Number(compareB.innerHTML)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (!ascendTr && sortType == "number") {
+                    if (Number(compareA.innerHTML) < Number(compareB.innerHTML)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && ascendTr) {
+                    ascendTr = false;
+                    switching = true;
+                }
+            }
+        }
+    }
+
+    // 隐藏表格列
+    function CheckToHide(labelClicked) {
+        // labelClicked.style.display = "none";
+        switch (labelClicked.id) {
+            case "readCheck":
+                HideTableCell("read", labelClicked);
+                break;
+            case "yearCheck":
+                HideTableCell("year", labelClicked);
+                break;
+            case "niHongGoCheck":
+                HideTableCell("niHongGo", labelClicked);
+                break;
+            case "catalogCheck":
+                HideTableCell("catalog", labelClicked);
+                break;
+            case "transCheck":
+                HideTableCell("trans", labelClicked);
+                break;
+            case "doubanCheck":
+                HideTableCell("douban", labelClicked);
+                break;
+            default:
+                break;
+        }
+    }
+    function HideTableCell(cellClass, labelClicked) {
+        let styleClass = document.getElementsByClassName(cellClass);
+        if (labelClicked.checked == true) {
+            for (let index = 0; index < styleClass.length; index++) {
+                styleClass[index].style.display = "table-cell";
+            }
+        }
+        else {
+            for (let index = 0; index < styleClass.length; index++) {
+                styleClass[index].style.display = "none";
+            }
+        }
+    }
+
+    // 已读单元格
+    let tdHaveRead = document.getElementsByClassName("tdAlignCenter read");
+    for (let index = 0; index < tdHaveRead.length; index++) {
+        tdHaveRead[index].addEventListener("click", function () {
+            if (this.innerText == "") this.innerText = "已读"
+            else this.innerText = "";
+        })
+    }
+
+    // 获奖纪录生成
+    AwardAdd(ulAward, "ulAwardList");
+    AwardAdd(ulBunShun, "ulBunShunList");
+    function AwardAdd(awardTitle, awardId) {
+        for (let i = 0; i < awardTitle.length; i++) {
+            let liData = document.createElement("li");
+            document.getElementById(awardId).appendChild(liData).innerText = awardTitle[i];
+        }
+    }
+
+    // 置顶按钮
+    // When the user scrolls down 20px from the top of the document, show the button
+    let topButton = document.getElementById("goToTop");
+    window.onscroll = function () { scrollFunction() };
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)
+            topButton.style.display = "block";
+        else topButton.style.display = "none";
+    }
+    function goTopFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+
+    // 刷新提示
+    window.onbeforeunload = function () {
+        return "";//让浏览器默认设置
+    }
+</script>
+
+</html>
