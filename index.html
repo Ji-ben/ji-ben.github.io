@@ -3,33 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>基本的索引页</title>
     <style>
-        p {
-            font-size: 2em;
+        body {
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+        }
+        section {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            min-width: 80vw;
+	        min-height: 80vh;
+        }
+        .divTitle {
+            color: #cbcbcb;
+            flex-grow: 1;
+            font-size: 8em;
             font-weight: 900;
-            letter-spacing: 0.3em;
-            text-align: center;
-            margin-top: -3em;
+            text-align: end;
+            writing-mode: vertical-rl;
+            user-select: none;
+            border-right: 1px solid #cbcbcb;
+            border-bottom: 1px solid #cbcbcb;
+            padding: 0 0 0.1em 0;
         }
-        .divLayout {
-            margin-top: 6em;
+        .divList {
+            color: #666666;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 4;
+            padding: 1em;
+            border-top: 1px solid #cbcbcb;
         }
-        .bigChar{
-            font-size: 2.4em;
+        @media (max-width : 600px) {
+            section {
+                flex-direction: column;
+            }
+            .divTitle {
+                flex-grow: 0;
+                writing-mode: horizontal-tb;
+                padding: 0 0.1em 0 0;
+            }
+            .divList {
+                border-top-width: 0;
+                border-left: 1px solid #cbcbcb;
+            }
         }
-        .imgCenter {
-            max-width: 60%;
-            display:block;
-            margin-left: auto; 
-            margin-right:auto; 
+        a:link, a:visited {
+            color: #666666;
+            text-decoration: unset;
         }
     </style>
 </head>
 <body>
-    <div class="divLayout">
-        <img class="imgCenter" alt="Helicopter" src="https://github.githubassets.com/images/modules/profile/profile-first-repo.png"/>
-        <p><span class="bigChar">嘟</span>嘟嘟嘟嘟嘟……</p>
-    </div>
+    <section>
+        <div class="divTitle">目录</div>
+        <div class="divList">
+            <a href="Higashino_Keigo.html">东野圭吾作品列表</a>
+            <br>
+            <a>其它作品列表（暂无）</a>
+            <br>
+            <a>其它作品列表（暂无）</a>
+        </div>
+    </section>
 </body>
 </html>
