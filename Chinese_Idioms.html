@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成语填字游戏</title>
+    <link href="assets/IdiomsQuiz.css" rel="stylesheet" type="text/css">
+    <script src="assets/IdiomsClass_IdiomStories.js"></script>
+</head>
+
+<body>
+    <section>
+        <div class="divFlexRow" id="flexTitle">
+        </div>
+        <div class="divFlexRow" id="flexWords">
+        </div>
+        <div class="divFlexRow" id="flexConfirm">
+            <button class="confirmButton" id="confirmBtn" onclick="confirm()"></button>
+            <button class="confirmButton" id="restartBtn" onclick="restart()">再试一题</button>
+        </div>
+        <div id="flexAnswer">
+            <p id="answer">【答案】</p>
+        </div>
+        <div id="flexDefinition">
+            <p id="definition">【解释】</p>
+            <p id="source">【出处】</p>
+        </div>
+    </section>
+
+
+
+</body>
+
+<script>
+    let idiomsCount = idioms.length;//获取成语总数
+    let currIdiom = "";//当前成语
+    let currIndex = 0;
+
+    let rstButton = document.getElementById("restartBtn");
+    let confButton = document.getElementById("confirmBtn");
+    rstButton.click();//默认开启新一题
+
+    function restart() {
+        if (rstButton.innerText == "再试一题") {
+            cleanChild("flexTitle");//清理标题
+            cleanChild("flexWords");//清理选字
+            confButton.disabled = false;
+
+            currIndex = getRandomInt(idiomsCount);//随机从成语总数范围内抽取一个索引数
+            currIdiom = idioms[currIndex].name;//根据抽到的索引指定当前成语
+
+            document.getElementById("answer").innerText = "【答案】";
+            document.getElementById("source").innerText = "【出处】";
+            document.getElementById("definition").innerText = "【解释】" + idioms[currIndex].definition;
+            rstButton.innerText = "显示答案";
+            confButton.innerText = "确定";
+
+            //#region 成语标题部分
+            let hintCharIndex = 0;//提示字的索引
+            let currIdiomLength = currIdiom.length;//当前成语字数
+            do {
+                hintCharIndex = getRandomInt(currIdiomLength);
+            } while (currIdiom[hintCharIndex] == "，");
+            for (let i = 0; i < currIdiomLength; i++) {
+                let idiTitleBtn = document.createElement("button");
+                idiTitleBtn.className = "btnIdiom";
+                //显示提示字，始终显示逗号，并锁定按钮
+                if (i == hintCharIndex || currIdiom[i] == "，") {
+                    idiTitleBtn.innerText = currIdiom[i];
+                    idiTitleBtn.disabled = true;
+                }
+                document.getElementById("flexTitle").appendChild(idiTitleBtn);
+            }
+
+            let btnIdiomArray = document.getElementsByClassName("btnIdiom");//成语标题数组
+            let btnSelectedIdx = 0;//高亮的按钮索引
+            //默认选中第一个非提示字的按钮
+            for (let i = 0; i < btnIdiomArray.length; i++) {
+                if (!btnIdiomArray[i].disabled) {
+                    btnIdiomArray[i].className += " btnIdiomSelected";
+                    btnSelectedIdx = i;
+                    break;
+                }
+            }
+            //点击选中的字符按钮
+            for (let i = 0; i < btnIdiomArray.length; i++) {
+                if (!btnIdiomArray[i].disabled) {
+                    btnIdiomArray[i].addEventListener("click", function () {
+                        for (let j = 0; j < btnIdiomArray.length; j++) {
+                            if (!btnIdiomArray[j].disabled) btnIdiomArray[j].className = "btnIdiom";
+                        }
+                        this.className += " btnIdiomSelected";
+                        btnSelectedIdx = btnIdiomArray.length;
+                    })
+                }
+            }
+            //#endregion
+            //#region 成语选字部分
+            let idiWordsAlt = [];//备选字数组,长度需控制在16个
+            idiWordsAlt = removeDuplicates(currIdiom);//先加入当前成语的去重字符（答案）
+            while (idiWordsAlt.length < 16) {
+                let randIndex = getRandomInt(idiomsCount);//随机抽取其它成语的索引
+                if (randIndex != currIndex) {
+                    let tmpIdiom = idioms[randIndex].name;
+                    idiWordsAlt.push(tmpIdiom[getRandomInt(tmpIdiom.length)]);//从随机抽取的成语中，随机抽取一个字符，并加入候选
+                    idiWordsAlt = removeDuplicates(idiWordsAlt);//基于当前数组内容去重
+                    arrayRemove(idiWordsAlt, "，");//删除可能存在的逗号
+                }
+            }
+            //随机排序数组后，生成按钮组
+            idiWordsAlt = shuffle(idiWordsAlt);
+            for (let i = 0; i < idiWordsAlt.length; i++) {
+                let idiWordsBtn = document.createElement("button");
+                idiWordsBtn.className = "btnAlt";
+                idiWordsBtn.innerText = idiWordsAlt[i];
+
+                document.getElementById("flexWords").appendChild(idiWordsBtn);
+            }
+
+            let btnAltArray = document.getElementsByClassName("btnAlt");
+            //点击备选字，填入上方激活的按钮
+            for (let i = 0; i < btnAltArray.length; i++) {
+                btnAltArray[i].addEventListener("click", function () {
+                    let btnIdiomSel = document.getElementsByClassName("btnIdiomSelected")[0];
+                    btnIdiomSel.innerText = this.innerText;
+                    if ((btnSelectedIdx + 1) < btnIdiomArray.length) {
+                        btnIdiomArray[btnSelectedIdx].className = "btnIdiom";
+                        while (btnIdiomArray[btnSelectedIdx + 1].disabled) btnSelectedIdx++;//跳过disabled的按钮
+                        btnSelectedIdx++;
+                        btnIdiomArray[btnSelectedIdx].className += " btnIdiomSelected";
+                    }
+                })
+            }
+            //#endregion
+        }
+        else {
+            let btnAnswerArray = document.getElementsByClassName("btnIdiom");
+            for (const iterator of btnAnswerArray) {
+                if (!iterator.disabled) {
+                    iterator.className = "btnIdiom btnIdiomCorrect";
+                    iterator.disabled = true;
+                }
+            }
+            confButton.innerText = "未作答";
+            confButton.disabled = true;
+            definitionDisplay();
+        }
+    }
+
+    //#region 确认按钮区
+    function confirm() {
+        if (confButton.innerText == "确定") {
+            let btnAnswerArray = document.getElementsByClassName("btnIdiom");//成语标题数组，用于提取答案
+            for (let i = 0; i < btnAnswerArray.length; i++) {
+                btnAnswerArray[i].className = "btnIdiom";
+                if (currIdiom[i] != btnAnswerArray[i].innerText) {
+                    btnAnswerArray[i].className += " btnIdiomWrong";
+                    confButton.innerText = "回答错误";
+                }
+                else if (!btnAnswerArray[i].disabled) {
+                    btnAnswerArray[i].className += " btnIdiomCorrect";
+                }
+                btnAnswerArray[i].disabled = true;
+            }
+            confButton.disabled = true;
+            if (confButton.innerText == "确定") {
+                confButton.innerText = "正确 ！";
+            }
+            definitionDisplay();
+        }
+    }
+    //#endregion
+
+    //#region 功能函数
+    //随机整数生成，0至最大数（包含0，不包含最大数）
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+    //数组去重
+    function removeDuplicates(arr) {
+        let obj = {};//利用对象的属性不会重复这一特性，校验数组元素是否重复
+        let result = [];//存放不重复项结果的数组
+        for (const i of arr) {
+            if (!obj[i]) {
+                result.push(i);
+                obj[i] = 1;
+            }
+        }
+        return result;
+    }
+    //数组乱序(https://github.com/HOUCe/shuffle-array)
+    function shuffle(array) {
+        var m = array.length,
+            t, i;
+        while (m) {
+            i = Math.floor(Math.random() * m--);
+            t = array[m];
+            array[m] = array[i];
+            array[i] = t;
+        }
+        return array;
+    }
+    //从数组中删除某个指定元素
+    function arrayRemove(array, element) {
+        const index = array.indexOf(element);
+        if (index > -1) array.splice(index, 1);
+    }
+    //清理DOM子元素
+    function cleanChild(idName) {
+        let node = document.getElementById(idName);
+        while (node.firstChild) node.removeChild(node.lastChild);
+    }
+    //显示答案
+    function definitionDisplay() {
+        rstButton.innerText = "再试一题";
+        document.getElementById("answer").innerText = "【答案】" + currIdiom;
+        document.getElementById("source").innerText = "【出处】" + idioms[currIndex].source;
+        //停用选字按钮
+        let idiWordsDisable = document.getElementsByClassName("btnAlt");
+        for (const iterator of idiWordsDisable) iterator.disabled = true;
+    }
+    //#endregion
+</script>
+
+</html>

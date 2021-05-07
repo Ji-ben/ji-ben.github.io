@@ -1,0 +1,84 @@
+body {
+    background: #fafafa;
+    color: #333;
+    font-family: Arial, sans-serif 'Microsoft Yahei', Verdana;
+}
+section {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+p {
+    margin: 1em 1.5em;
+}
+.divFlexRow {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+#flexTitle {
+    background-color: #f3e6d8;
+    width: 100vw;
+    padding: 1em 0;
+}
+#flexWords {
+    width: 20em;
+    padding: 1em;
+}
+#flexConfirm {
+    margin: 0 1em 1em 1em;
+}
+#flexAnswer {
+    background-color: #f3e6d8;
+    border: 1px solid  #b09582;
+    width: 90vw;
+}
+#flexDefinition {
+    background-color: white;
+    width: 90vw;
+}
+.btnAlt, .btnIdiom, .btnIdiom:disabled {
+    background-color: white;
+    border: 2px solid black;
+    color: #333;
+    height: 2em;
+    width: 2em;
+    font-size: 2em;
+    margin: 1px;
+}
+.btnAlt:disabled {
+    background-color: transparent;
+    border: 2px solid #999;
+    color: #999;
+}
+.btnIdiom:disabled{
+    background-color: transparent;
+    border: none;
+}
+.btnIdiomSelected {
+    background-color: #d6835c;
+}
+.btnIdiomCorrect {
+    background-color: white !important;
+    border: 2px solid black !important;
+}
+.btnIdiomWrong {
+    color: red !important;
+    background-color: white !important;
+    border: 2px solid red !important;
+}
+.confirmButton {
+    background-color: #8a360f;
+    color: white;
+    font-size: 1.2em;
+    height: 2em;
+    width: 6em;
+    margin: 0 1em;
+}
+.confirmButton:disabled {
+    background-color: #999;
+}
+.btnAlt:active, .btnIdiom:active, .confirmButton:active {
+    background-color: #d6835c;
+    color: white;
+}
