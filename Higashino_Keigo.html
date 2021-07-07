@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -147,12 +147,12 @@
     <button id="goToTop" onclick="goTopFunction()">∧</button>
 
     <div class="divCommon">
-        <p class="txtAlignRight">※ 以上列表内容更新时间：2020/11/15 11:31:21</p>
+        <p class="txtAlignRight">※ 更新日期：2021/7/5</p>
         <hr>
 
         <p class="titleBold">获奖履历</p>
         <ul id="ulAwardList"></ul>
-        <p class="titleBold">推理排名<span style="font-weight: normal; font-size: 0.9rem;">（只列举排名第1位的作品）</span></p>
+        <p class="titleBold">推理排名<span style="font-weight: normal; font-size: 0.9rem;">（仅获第1位的作品）</span></p>
         <p style="font-weight: bold;">周刊文春推理小说Best10</p>
         <ul id="ulBunShunList"></ul>
         <p style="font-weight: bold;">这本推理小说真厉害！</p>
@@ -164,11 +164,10 @@
         <ul>
             <li>2006年《嫌疑人X的献身》</li>
         </ul>
-        <p class="titleBold">其它链接</p>
-        <a href="https://m.douban.com/subject_collection/7681" target="_blank">■ 东野圭吾代表作(豆瓣推荐)</a>
-        <br>
-        <a href="https://m.douban.com/subject_collection/5210" target="_blank">■ 豆瓣热门推理图书TOP10</a>
     </div>
+    <br>
+    <br>
+    <br>
 </body>
 
 <script>
@@ -202,7 +201,7 @@
                     break;
                 case 3:
                     tdData.className = "niHongGo";
-                    tdData.innerText = books[i].name;
+                    tdData.innerText = "『" + books[i].name + "』";
                     break;
                 case 4:
                     tdData.className = "niHongGo";
@@ -213,24 +212,27 @@
                     tdData.innerText = books[i].series;
                     break;
                 case 6:
-                    tdData.innerText = books[i].nameCN;
+                    tdData.innerText = "《" + books[i].nameCN + "》";
+                    if (books[i].nameCN == "") tdData.innerText = "尚未出版";
                     break;
                 case 7:
                     tdData.className = "trans";
                     tdData.innerText = books[i].pressCN;
+                    if (books[i].pressCN == "") tdData.innerText = "尚未出版";
                     break;
                 case 8:
                     tdData.className = "trans";
                     tdData.innerText = books[i].transBy;
+                    if (books[i].transBy == "") tdData.innerText = "尚未出版";
                     break;
                 case 9:
                     tdData.className = "tdAlignCenter douban";
-                    if (books[i].rating == 0) tdData.innerText = "";
+                    if (books[i].rating == 0) tdData.innerText = "暂无评分";
                     else tdData.innerText = books[i].rating;
                     break;
                 case 10:
                     tdData.className = "tdAlignCenter douban";
-                    if (books[i].votes == 0) tdData.innerText = "";
+                    if (books[i].votes == 0) tdData.innerText = "暂无评分";
                     else tdData.innerText = books[i].votes;
                     break;
                 default:
