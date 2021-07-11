@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,14 +13,18 @@
             align-items: center;
             margin: 0;
         }
+
         section {
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
             min-width: 80vw;
-	        min-height: 80vh;
+            min-height: 80vh;
         }
+
         .divTitle {
+            background: linear-gradient(177deg, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 0.1) 100%),
+                linear-gradient(93deg, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, 0.1) 100%);
             color: #cbcbcb;
             flex-grow: 1;
             font-size: 8em;
@@ -31,6 +36,7 @@
             border-bottom: 1px solid #cbcbcb;
             padding: 0 0 0.1em 0;
         }
+
         .divList {
             color: #666666;
             display: flex;
@@ -39,36 +45,46 @@
             padding: 1em;
             border-top: 1px solid #cbcbcb;
         }
+
         @media (max-width : 600px) {
             section {
                 flex-direction: column;
             }
+
             .divTitle {
+                background: linear-gradient(178deg, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, 0.1) 100%),
+                    linear-gradient(96deg, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 0.1) 100%);
                 flex-grow: 0;
                 writing-mode: horizontal-tb;
                 padding: 0 0.1em 0 0;
             }
+
             .divList {
                 border-top-width: 0;
                 border-left: 1px solid #cbcbcb;
             }
         }
-        a:link, a:visited {
+
+        a:link,
+        a:visited {
             color: #666666;
             text-decoration: unset;
         }
     </style>
 </head>
+
 <body>
     <section>
         <div class="divTitle">目录</div>
         <div class="divList">
+            <a href="./AgathaChristie_bibliography.html">阿加莎·克里斯蒂作品列表</a>
+            <br>
             <a href="./Higashino_Keigo.html">东野圭吾作品列表</a>
             <br>
             <a href="./Chinese_Idioms.html">成语填字游戏</a>
             <br>
-            <a>其它作品列表（暂无）</a>
         </div>
     </section>
 </body>
+
 </html>
