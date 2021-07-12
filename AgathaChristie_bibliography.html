@@ -40,6 +40,7 @@
         }
 
         th {
+            font-style: normal !important;
             cursor: pointer;
         }
 
@@ -129,13 +130,12 @@
             <thead>
                 <tr id="tableHead">
                     <th class="read" onclick="sortTable(0,'string')">标记</th>
-                    <th onclick="sortTable(1,'number')">次序</th>
-                    <th class="year" onclick="sortTable(2,'number')">年份</th>
+                    <th class="year" onclick="sortTable(1,'number')">年份</th>
                     <th class="origTitle">原作书名</th>
-                    <th class="catalog" onclick="sortTable(4,'string')">系列分类</th>
+                    <th class="catalog" onclick="sortTable(3,'string')">系列分类</th>
                     <th>译本书名</th>
-                    <th class="douban" onclick="sortTable(6,'number')">豆瓣评分</th>
-                    <th class="douban" onclick="sortTable(7,'number')">评分人数</th>
+                    <th class="douban" onclick="sortTable(5,'number')">豆瓣评分</th>
+                    <th class="douban" onclick="sortTable(6,'number')">评分人数</th>
                 </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -145,8 +145,13 @@
     <button id="goToTop" onclick="goTopFunction()">∧</button>
 
     <div class="divCommon">
-        <p class="txtAlignRight">※ 更新日期：2021/7/9</p>
-        <!-- <hr> -->
+        <p class="txtAlignRight">※ 更新日期：2021/7/12</p>
+        <p>说明：
+            <br>本表仅列出作者72本小说，以及部分小说集的译本书目，并非全作品收录。
+            <br>译本书名大多采用新星出版社的译名。
+            <br>推理系列的小说评分大多为人民文学出版社与新星出版社的平均值，评分人数取较大值。
+            <br>非推理系列大多为上海文艺出版社的版本。
+        </p>
     </div>
     <br>
     <br>
@@ -160,7 +165,7 @@
         trData.id = "tr" + i;
         document.getElementById("tableBody").appendChild(trData);
 
-        for (let j = 0; j < 8; j++) {
+        for (let j = 0; j < 7; j++) {
             tdData = document.createElement("td");
             switch (j) {
                 case 0:
@@ -168,31 +173,27 @@
                     // tdData.innerText = "已读";
                     break;
                 case 1:
-                    tdData.className = "tdAlignCenter";
-                    tdData.innerText = books[i].id;
-                    break;
-                case 2:
                     tdData.className = "tdAlignCenter year";
                     tdData.innerText = books[i].year;
                     break;
-                case 3:
+                case 2:
                     tdData.className = "origTitle";
                     tdData.innerText = books[i].title;
                     break;
-                case 4:
+                case 3:
                     tdData.className = "catalog";
                     tdData.innerText = books[i].series;
                     break;
-                case 5:
+                case 4:
                     if (books[i].titleCN == undefined) tdData.innerText = "-";
                     else tdData.innerText = "《" + books[i].titleCN + "》";
                     break;
-                case 6:
+                case 5:
                     tdData.className = "tdAlignCenter douban";
                     if (books[i].rating == undefined) tdData.innerText = "";
                     else tdData.innerText = books[i].rating;
                     break;
-                case 7:
+                case 6:
                     tdData.className = "tdAlignCenter douban";
                     if (books[i].votes == undefined) tdData.innerText = "";
                     else tdData.innerText = books[i].votes;
