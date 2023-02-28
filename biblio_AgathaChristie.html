@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿加莎作品集</title>
+    <link rel="stylesheet" href="assets/bibliographyStyle.css">
+    <script src="assets/AgathaClass.js"></script>
+    <script src="assets/biblioTableGen.js"></script>
+</head>
+<body>
+    <div class="divCommon" id="DivLabel"></div>
+    <div id="DivTable">
+        <table>
+            <thead>
+                <tr id="TableHead"></tr>
+            </thead>
+            <tbody id="TableBody"></tbody>
+        </table>
+    </div>
+    <button id="goToTop" onclick="goTopFunction()">∧</button>
+    <div class="divCommon">
+        <p class="alignRight">※ 数据更新日期：2021-7-12</p>
+        <p>说明：
+            <br>本表仅列出作者72本小说，以及部分小说集的译本书目，并非全作品收录。
+            <br>译本书名大多采用新星出版社的译名。
+            <br>推理系列的小说评分大多为人民文学出版社与新星出版社的平均值，评分人数取较大值。
+            <br>非推理系列大多为上海文艺出版社的版本。
+        </p>
+    </div>
+    <script>
+        //本地存储已读单元格记录
+        const storageName = "agathaBooks-localData";
+        const initialData = localStorage.getItem(storageName);
+        const checkedData = initialData ? JSON.parse(initialData) : {};//初始化需要被stringify的类型，[]或{}，必需对应！
+
+        labelGen(columnTitle, "DivLabel");
+        tableHeadGen(tableHead, "TableHead");
+        tableBodyGen(tableHead, works, "TableBody", checkedData);
+        tableCellCheck("已读", storageName, checkedData);
+
+        const topButton = document.getElementById("goToTop");
+        window.onscroll = function () { scrollFunction(topButton) };
+    </script>
+</body>
+</html>

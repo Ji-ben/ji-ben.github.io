@@ -1,0 +1,73 @@
+#DivTable {
+    display: flex;
+    justify-content: center;
+}
+table {
+    font-size: 0.9em;
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid #cbcbcb;
+}
+thead {
+    background-color: #e0e0e0;
+}
+th, td {
+    border-bottom: 1px solid #cbcbcb;
+    border-width: 0 0 1 0px;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible;
+    padding: 0.5em 1em;
+}
+td {
+    color: #777777;
+}
+.alignCenter {
+    text-align: center;
+}
+.alignRight {
+    text-align: right;
+}
+.fontOblique {
+    font-style: oblique;
+}
+.pointerCursor {
+    cursor: pointer;
+}
+
+#goToTop {
+    display: none;
+    position: fixed;
+    bottom: 1.2em;
+    right: 1.5em;
+    font-size: 2em;
+    color: #cbcbcb;
+    transform: scale(1.5, 1);
+    border: none;
+    border-radius: 0;
+    outline: none;
+    padding: 0px 10px 5px 10px;
+    z-index: 99;
+}
+#goToTop:hover {
+    color: #777777;
+}
+#goToTop:active {
+    color: #cbcbcb;
+    background-color: #777777;
+}
+.divCommon {
+    margin: 1em;
+}
+p, li {
+    color: #777777;
+    font-size: 0.9em;
+}
+hr {
+    display: block;
+    margin: 2em auto;
+    border: none;
+    height: 1px;
+    background-color: #cbcbcb;
+}

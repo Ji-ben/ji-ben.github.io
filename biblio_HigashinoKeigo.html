@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>东野圭吾作品集</title>
+    <link rel="stylesheet" href="assets/bibliographyStyle.css">
+    <script src="assets/HigashinoClass.js"></script>
+    <script src="assets/biblioTableGen.js"></script>
+    <style>
+        .titleBold {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="divCommon"  id="DivLabel"></div>
+    <div id="DivTable">
+        <table>
+            <thead>
+                <tr id="TableHead"></tr>
+            </thead>
+            <tbody id="TableBody"></tbody>
+        </table>
+    </div>
+    <div class="divCommon">
+        <p class="alignRight">※ 更新日期：2023/2/28</p>
+        <hr>
+
+        <p class="titleBold">获奖履历</p>
+        <ul>
+            <li>1985年《放学后》获第31届江户川乱步奖</li>
+            <li>1999年《秘密》获第52届日本推理作家协会奖（长篇类）</li>
+            <li>2006年《嫌疑人X的献身》获直木三十五奖，第6届本格推理大奖（小说类）</li>
+            <li>2008年《流星之绊》获第43届新风奖</li>
+            <li>2012年《解忧杂货店》获第7届中央公论文艺奖</li>
+            <li>2013年《梦幻花》获第26届柴田炼三郎奖</li>
+            <li>2014年《祈祷落幕时》获第48届吉川英治文学奖</li>
+        </ul>
+        <p class="titleBold">推理排名<span style="font-weight: normal; font-size: 0.9rem;">（仅获第1位的作品）</span></p>
+        <p style="font-weight: bold;">周刊文春推理小说Best10</p>
+        <ul>
+            <li>1985年《放学后》</li>
+            <li>1999年《白夜行》</li>
+            <li>2005年《嫌疑人X的献身》</li>
+            <li>2009年《新参者》</li>
+            <li>2018年《沉默的游行》</li>
+        </ul>
+        <p style="font-weight: bold;">这本推理小说真厉害！</p>
+        <ul>
+            <li>2006年《嫌疑人X的献身》</li>
+            <li>2010年《新参者》</li>
+        </ul>
+        <p style="font-weight: bold;">本格推理小说Best10</p>
+        <ul>
+            <li>2006年《嫌疑人X的献身》</li>
+        </ul>
+    </div>
+    <button id="goToTop" onclick="goTopFunction()">∧</button>
+    <script>
+        //本地存储已读单元格记录
+        const storageName = "higashinoBooks-localData";
+        const initialData = localStorage.getItem(storageName);
+        const checkedData = initialData ? JSON.parse(initialData) : {};//初始化需要被stringify的类型，[]或{}，必需对应！
+
+        labelGen(columnTitle, "DivLabel");
+        tableHeadGen(tableHead, "TableHead");
+        tableBodyGen(tableHead, works, "TableBody", checkedData);
+        tableCellCheck("已读", storageName, checkedData);
+        
+        const topButton = document.getElementById("goToTop");
+        window.onscroll = function () { scrollFunction(topButton) };
+    </script>
+</body>
+</html>
